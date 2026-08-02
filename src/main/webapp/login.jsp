@@ -17,7 +17,10 @@
   }
 
  %>
-<form action="LoginValidator" method="post">
+<%-- encodeURL keeps the session alive for clients the container cannot confirm
+     accept cookies: it appends ;jsessionid= when the id arrived in the URL, and
+     returns the action untouched for a normal cookie-carrying browser. --%>
+<form action="<%= response.encodeURL("LoginValidator") %>" method="post">
 <table> 
     <tr><td>UserName: </td><td><input type="text" name="username" value="<%=username%>" /></td></tr>
 <tr><td>Password :</td><td><input type="text" name="password" value="<%=password%>"/></td></tr>

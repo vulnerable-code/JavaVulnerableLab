@@ -1,0 +1,44 @@
+<%--
+    widget-source.jspf  -  shared config for the third-party "promo widget"
+    [OWASP 2025 A08 Software or Data Integrity Failures,
+     CWE-830 Inclusion of Web Functionality from an Untrusted Source]
+
+    The URL of the third-party script, and its optional Subresource Integrity
+    hash, are kept in WEB-INF/config.properties so the admin screen can change
+    them at runtime. In a real application the URL would simply be hard-coded
+    in the page by whoever added the vendor's snippet.
+
+    Both settings are empty by default. An empty script URL falls back to the
+    demo widget server on whatever host the browser used to reach this page,
+    so the lab works unchanged on localhost, on a VM's IP, or behind a
+    hostname. Nothing here assumes localhost.
+--%>
+<%@page import="java.util.Properties"%>
+<%!
+    static final String WIDGET_URL_KEY = "widgetScriptUrl";
+    static final String WIDGET_SRI_KEY = "widgetScriptIntegrity";
+    static final int WIDGET_DEMO_PORT = 8000;
+
+    /**
+     * Where the demo widget server is expected to be: same host the browser is
+     * already talking to, port 8000. Derived per request, never hard-coded.
+     */
+    static String defaultWidgetUrl(HttpServletRequest request) {
+        return "http://" + request.getServerName() + ":" + WIDGET_DEMO_PORT
+                + "/promo-widget.js";
+    }
+
+    /** Escape a value for use inside a double-quoted HTML attribute or as text. */
+    static String esc(String value) {
+        if (value == null) {
+            return "";
+        }
+        return value.replace("&", "&amp;").replace("<", "&lt;")
+                    .replace(">", "&gt;").replace("\"", "&quot;");
+    }
+
+    static String widgetSetting(Properties props, String key, String fallback) {
+        String value = props == null ? null : props.getProperty(key);
+        return (value == null || value.trim().length() == 0) ? fallback : value.trim();
+    }
+%>

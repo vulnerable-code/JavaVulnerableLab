@@ -1,0 +1,17 @@
+# Backup of application configuration - internal use only, DO NOT SHIP
+# (left in a web-accessible /backup/ folder that has directory listing enabled)
+
+dbuser=root
+dbpass=root
+dbname=abc
+dburl=jdbc:mysql://mysql:3306/
+jdbcdriver=com.mysql.jdbc.Driver
+
+# seeded administrator (change on first login... never done)
+adminuser=admin
+adminpass=admin@123
+
+# third-party integrations
+payment.api.key=sk_live_5H8xQ2rZtV9pWmK3fBnL7dYcExampleKeyDoNotUse
+smtp.user=noreply@cysecurity.local
+smtp.pass=Summer2024!

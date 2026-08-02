@@ -39,7 +39,41 @@
     <artifactId>servlet-api</artifactId>
     <version>2.3</version>
     <scope>provided</scope>
-</dependency>	 	
+</dependency>
+	<!-- OWASP 2025 A03 Software Supply Chain: log4j 2.12.1 is the Java 7 branch
+	     and is still vulnerable to Log4Shell (CVE-2021-44228). 2.12.2 fixed it. -->
+	<dependency>
+		<groupId>org.apache.logging.log4j</groupId>
+		<artifactId>log4j-api</artifactId>
+		<version>2.12.1</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.logging.log4j</groupId>
+		<artifactId>log4j-core</artifactId>
+		<version>2.12.1</version>
+	</dependency>
+	<!-- OWASP 2025 A08 Software or Data Integrity Failures: commons-collections
+	     3.1 (2004) carries the InvokerTransformer gadget used by ysoserial's
+	     CommonsCollections chains. On the classpath it turns the raw
+	     ObjectInputStream in vulnerability/deserialize/preferences.jsp into RCE
+	     (CWE-502). Fixed by upgrading to 3.2.2 + a deserialization allow-list. -->
+	<dependency>
+		<groupId>commons-collections</groupId>
+		<artifactId>commons-collections</artifactId>
+		<version>3.1</version>
+	</dependency>
+	<!-- OWASP 2025 A06 Insecure Design: file upload with no type restriction
+	     (CWE-434). commons-fileupload 1.3.x + commons-io are Java 7 compatible. -->
+	<dependency>
+		<groupId>commons-fileupload</groupId>
+		<artifactId>commons-fileupload</artifactId>
+		<version>1.3.3</version>
+	</dependency>
+	<dependency>
+		<groupId>commons-io</groupId>
+		<artifactId>commons-io</artifactId>
+		<version>2.6</version>
+	</dependency>
   </dependencies>
   <build>
     <finalName>JavaVulnerableLab</finalName>

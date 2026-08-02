@@ -1,224 +1,464 @@
-* {
-	margin: 0px;
-	padding: 0px;
+/* ============================================================================
+   Java Vulnerable Lab - modern dark UI (neutral slate surfaces, one indigo
+   accent). CSS-only refresh: all element IDs, the menu markup and the
+   hover-dropdown mechanics are unchanged. Only presentation moved.
+   ============================================================================ */
+
+:root {
+	--bg:        #0e0f13;
+	--surface:   #16181f;   /* cards / navbar            */
+	--elevated:  #1d2029;   /* dropdowns, inputs         */
+	--line:      rgba(255,255,255,.08);
+	--line-soft: rgba(255,255,255,.06);
+	--text:      #e6e7ea;
+	--muted:     #9399a5;
+	--accent:    #7c5cff;   /* indigo                    */
+	--accent-2:  #a78bfa;   /* violet                    */
+	--accent-tint: rgba(124,92,255,.14);
+	--good:      #45d19a;
+	--bad:       #ff6b81;
+	--radius:    12px;
+	--shadow:    0 10px 30px rgba(0,0,0,.45);
 }
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
 body {
-	padding-top: 0px;
-	background:url("images/bg.png") #000;
-	color: #FFF;
-	font-family: verdana, arial, sans-serif;
-	
-	text-align: left;
-	letter-spacing: 1px;
+	background-color: var(--bg);
+	background-image:
+		radial-gradient(760px 440px at -6% -10%, rgba(124,92,255,.18), transparent 60%),   /* indigo glow, top-left */
+		radial-gradient(720px 460px at 106% 112%, rgba(206,44,85,.13), transparent 60%),   /* crimson glow, bottom-right */
+		radial-gradient(rgba(255,255,255,.045) 1px, transparent 1px);                      /* faint dot grid */
+	background-size: 100% 100%, 100% 100%, 24px 24px;
+	background-repeat: no-repeat, no-repeat, repeat;
+	background-attachment: fixed;
+	color: var(--text);
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	line-height: 1.65;
+	letter-spacing: .1px;
+	min-height: 100vh;
+	-webkit-font-smoothing: antialiased;
 }
-a {color: #A92332;font-size: 14px;text-decoration:none;}
-a:hover {color: #01a9c0;}
-.more{float: right; font-size: 11px; color: #add8f9; font-weight: bold; text-decoration: none;}
-.clear{clear:both;}
-p{	margin: 20px 0px 20px 0px;line-height: 16px;font-size: 14px;}
+
+a { color: var(--accent-2); text-decoration: none; transition: color .15s ease; }
+a:hover { color: #c9bcff; }
+
+p { margin: 16px 0; }
+h1, h2, h3 { line-height: 1.25; }
+hr { border: none; border-top: 1px solid var(--line); margin: 18px 0; }
+
+.more { float: right; font-size: 11px; color: var(--accent-2); font-weight: 600; }
+.clear { clear: both; }
+.success { color: var(--good); font-weight: 600; }
+.fail    { color: var(--bad);  font-weight: 600; }
+
+/* ------------------------------------------------------------------ shell -- */
 #container {
-	  margin-left: auto ;
-  margin-right: auto ;
-	width:873px;
+	width: min(1120px, 84%);
+	margin: 26px auto 48px;
+	/* bakes in the "110% browser zoom" look: scales fonts, spacing and the whole
+	   panel up ~10% together. Width cap trimmed to 84% so 1.1x never overflows. */
+	zoom: 1.1;
 }
-.success
-{
-    color:green;
+
+/* content card = body of the panel: no top border/radius so it joins the navbar */
+#Main-Container {
+	width: 100%;
+	overflow: hidden;
+	background:
+		linear-gradient(180deg, rgba(255,255,255,.02), transparent 120px),
+		var(--surface);
+	border: 1px solid var(--line);
+	border-top: none;
+	border-radius: 0 0 16px 16px;
+	box-shadow: var(--shadow);
+	padding: 0 36px 36px;
 }
-.fail
-{
-    color:red;
-}
-#Main-Container{
-	width:750px;
-	border-radius: 15px;
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  box-shadow: 3px 3px 4px #000;
-  -webkit-box-shadow: 2px 2px 3px #000;
-  -moz-box-shadow: 2px 2px 3px #000;
- 
-  border: solid 4px #FFF;
-    margin-left: auto ;
-  margin-right: auto ;
-}
+
+/* hero band: brand + badge, bleeds to the panel edges, glows */
 #logo {
-width:500px;
-
-	text-align:center;
- margin-left: auto ;
-  margin-right: auto ;
+	width: auto;
+	text-align: center;
+	margin: 0 -36px 22px;
+	padding: 26px 0 20px;
+	border-bottom: 1px solid var(--line);
+	background: radial-gradient(620px 180px at 50% -20%, rgba(124,92,255,.20), transparent 68%);
+}
+#logo h1 {
+	display: inline-block;
+	font-size: 32px;
+	font-weight: 800;
+	letter-spacing: .3px;
+	background: linear-gradient(90deg, #d9ccff, var(--accent-2), var(--accent));
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+#logo::after {
+	content: "OWASP Top 10";
+	display: block;
+	width: -moz-fit-content;
+	width: fit-content;
+	margin: 12px auto 0;
+	padding: 5px 15px;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	text-transform: uppercase;
+	color: #c9bcff;
+	background: var(--accent-tint);
+	border: 1px solid rgba(124,92,255,.38);
+	border-radius: 999px;
 }
 
-#Main{
-	width:650px;
-	height: 500px;
-	    margin-left: auto ;
-  margin-right: auto ;
+#Main {
+	width: auto;
+	max-width: 880px;
+	height: auto;
+	min-height: 220px;
+	margin: 0 auto;
+	padding-top: 8px;
 }
-#Main h2{
-	color: #d4e5f2;
-	font-family: Arial;
-	font-size: 18px;
-	padding: 0 0 10px 5px;
-}
+#Main h2 { color: #f2f2f5; font-size: 23px; font-weight: 700; padding: 0 0 12px 2px; }
+#Main h3 { color: var(--accent-2); font-size: 18px; margin: 14px 0 8px; }
 
-#left {
-	float:left;
-	width:435px;
-	margin: 0px 0px 0px 85px;
-	display:inline;
-}
-#right {
-	float:right;
-	width:258px;
-	height:auto;
-	margin: 0px 62px 20px 0px;
-	display:inline;
-}
-#right a img{
-	margin: 8px 8px 8px 0px;
-	border: none 0px #FFFFFF;
-}
+#left  { float: left;  width: 435px; margin: 0 0 0 40px; display: inline; }
+#right { float: right; width: 258px; height: auto; margin: 0 40px 20px 0; display: inline; }
+#right a img { margin: 8px 8px 8px 0; border: none; border-radius: 8px; }
+
+/* --------------------------------------------------------------- nav bar -- */
+/* navbar = header strip of the single panel: flush on top of the content card */
 #menu-bar {
-width:680px;
-  margin: 0px 0px 0px 0px;
-  padding: 6px 6px 0px 6px;
-  height: 34px;
-  line-height: 100%;
-   border-radius: 15px 15px 0px 0px;
-  -webkit-border-radius: 24px;
-  -moz-border-radius: 24px;
-  box-shadow: 2px 2px 3px #666666;
-  -webkit-box-shadow: 2px 2px 3px #666666;
-  -moz-box-shadow: 2px 2px 3px #666666;
-  background: #000000;
-  border: solid 4px #FFF;
-   border-bottom:none; 
+	width: 100%;
+	display: block;
+	position: relative;
+	z-index: 100;
+	margin: 0;
+	padding: 10px 10px 7px;
+	height: auto;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-bottom: 1px solid var(--line);
+	border-radius: 16px 16px 0 0;
+	box-shadow: none;
+}
+#menu-bar::before {
+	content: "";
+	position: absolute;
+	top: 0; left: 0; right: 0;
+	height: 3px;
+	background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 52%, #ce2c55 112%);
+	border-radius: 16px 16px 0 0;
 }
 #menu-bar li {
-  margin: 0 2px;
-  padding: 0 0 2px;
-  float: left;
-  position: relative;
-  list-style: none;
+	margin: 0 1px;
+	padding: 0;
+	float: left;
+	position: relative;
+	list-style: none;
 }
 #menu-bar a {
-  font-weight: bold;
-  font-family: arial;
-  font-style: normal;
-  font-size: 12px;
-  color: #E7E5E5;
-  text-decoration: none;
-  display: block;
-  padding: 8px 15px;
-  margin: 0;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  text-shadow: 2px 2px 3px #000000;
+	font-weight: 600;
+	font-size: 15px;
+	color: var(--text);
+	display: block;
+	padding: 10px 18px;
+	border-radius: 9px;
+	white-space: nowrap;
+	transition: background .15s ease, color .15s ease;
 }
-#menu-bar .current a, #menu-bar li:hover > a {
-  background: #027BAB;
-  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr=#10D5EB, endColorstr=#0883FF);
-  background: -webkit-gradient(linear, left top, left bottom, from(#10D5EB), to(#0883FF));
-  background: -moz-linear-gradient(top,  #10D5EB,  #0883FF);
-  color: #000000;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
-  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
-  text-shadow: 2px 2px 3px #FFFFFF;
+#menu-bar > li > a::after {
+	content: "";
 }
-#menu-bar ul li:hover a, #menu-bar li:hover li a {
-  background: none;
-  border: none;
-  color: #666;
-  -box-shadow: none;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
+/* caret only on top-level items that actually have a submenu */
+#menu-bar > li:has(> ul) > a::after {
+	content: " \25be";
+	color: var(--muted);
+	font-size: 10px;
 }
-#menu-bar ul a:hover {
-  background: #0399D4 !important;
-  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr=#10D5EB, endColorstr=#0883FF);
-  background: -webkit-gradient(linear, left top, left bottom, from(#10D5EB), to(#0883FF)) !important;
-  background: -moz-linear-gradient(top,  #10D5EB,  #0883FF) !important;
-  color: #000000 !important;
-  border-radius: 0;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  text-shadow: 2px 2px 3px #FFFFFF;
+#menu-bar .current a,
+#menu-bar > li:hover > a {
+	background: var(--accent-tint);
+	color: #d8ccff;
 }
+
+/* dropdown panels -------------------------------------------------------- */
 #menu-bar ul {
-  background: #DDDDDD;
-  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFFFFF, endColorstr=#CFCFCF);
-  background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#CFCFCF));
-  background: -moz-linear-gradient(top,  #FFFFFF,  #CFCFCF);
-  display: none;
-  margin: 0;
-  padding: 0;
-  width: 250px;
-  position: absolute;
-  top: 30px;
-  left: 0;
-  border: solid 1px #B4B4B4;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -webkit-box-shadow: 2px 2px 3px #222222;
-  -moz-box-shadow: 2px 2px 3px #222222;
-  box-shadow: 2px 2px 3px #222222;
+	background: var(--elevated);
+	display: block;
+	visibility: hidden;
+	opacity: 0;
+	transform: translateY(6px);
+	/* Grace period: when the cursor leaves, keep the menu fully shown for ~0.25s
+	   before fading, so moving into a submenu (or across a tiny seam) does not
+	   collapse the whole chain. Opening stays instant (see :hover rule). */
+	transition: opacity .15s ease .25s, transform .15s ease .25s, visibility 0s linear .42s;
+	margin: 0;
+	padding: 6px;
+	width: auto;
+	min-width: 250px;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	box-shadow: 0 16px 34px rgba(0,0,0,.55);
+	z-index: 50;
 }
 #menu-bar li:hover > ul {
-  display: block;
+	visibility: visible;
+	opacity: 1;
+	transform: translateY(0);
+	transition: opacity .14s ease 0s, transform .14s ease 0s, visibility 0s linear 0s;
 }
-#menu-bar ul li {
-  float: none;
-  margin: 0;
-  padding: 0;
+#menu-bar ul li { float: none; margin: 0; padding: 0; }
+#menu-bar ul li:hover a,
+#menu-bar li:hover li a {
+	background: none;
+	border: none;
+	color: var(--text);
+	box-shadow: none;
 }
 #menu-bar ul a {
-  padding:5px 0 5px 8px;
-  color:#424242 !important;
-  font-size:12px;
-  font-style:normal;
-  font-family:arial;
-  font-weight: normal;
-  text-shadow: 2px 2px 3px #FFFFFF;
+	padding: 10px 14px;
+	color: var(--text) !important;
+	font-size: 14px;
+	font-weight: 500;
+	white-space: nowrap;
+	border-radius: 8px;
+	position: relative;
+	transition: background .12s ease, color .12s ease;
 }
-#menu-bar ul li:first-child > a {
-  border-top-left-radius: 10px;
-  -webkit-border-top-left-radius: 10px;
-  -moz-border-radius-topleft: 10px;
-  border-top-right-radius: 10px;
-  -webkit-border-top-right-radius: 10px;
-  -moz-border-radius-topright: 10px;
+#menu-bar ul a:hover {
+	background: var(--accent) !important;
+	color: #fff !important;
+	border-radius: 8px;
 }
-#menu-bar ul li:last-child > a {
-  border-bottom-left-radius: 10px;
-  -webkit-border-bottom-left-radius: 10px;
-  -moz-border-radius-bottomleft: 10px;
-  border-bottom-right-radius: 10px;
-  -webkit-border-bottom-right-radius: 10px;
-  -moz-border-radius-bottomright: 10px;
+/* mark dropdown items that expand into a side submenu (arrow pinned right) */
+#menu-bar ul li:has(> ul) > a { padding-right: 28px; }
+#menu-bar ul li:has(> ul) > a::after {
+	content: "\25B8";
+	position: absolute;
+	right: 11px;
+	top: 50%;
+	transform: translateY(-50%);
+	color: var(--muted);
+	font-size: 11px;
 }
+#menu-bar ul li:has(> ul):hover > a::after { color: #fff; }
+#menu-bar ul li:first-child > a,
+#menu-bar ul li:last-child > a { border-radius: 8px; }
+
 #menu-bar:after {
-  content: ".";
-  display: block;
-  clear: both;
-  visibility: hidden;
-  line-height: 0;
-  height: 0;
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
 }
-#menu-bar {
-  display: inline-block;
+html[xmlns] #menu-bar { display: block; }
+* html #menu-bar { height: 1%; }
+
+/* nested (3rd level) submenu opens to the side, flush against the parent (no
+   gap) so the cursor never crosses empty space and loses hover */
+#menu-bar ul li ul {
+	left: 100%;
+	top: -7px;
+	background: var(--elevated);
 }
-  html[xmlns] #menu-bar {
-  display: block;
+
+/* --------------------------------------------------------------- content -- */
+input[type=text], input[type=password], input[type=email],
+input[type=number], input[type=search], input[type=url],
+textarea, select {
+	background: var(--elevated);
+	color: var(--text);
+	border: 1px solid rgba(255,255,255,.14);
+	border-radius: 8px;
+	padding: 10px 12px;
+	font-size: 15px;
+	font-family: inherit;
+	outline: none;
+	transition: border-color .15s ease, box-shadow .15s ease;
+	max-width: 100%;
 }
-* html #menu-bar {
-  height: 1%;
+input::placeholder, textarea::placeholder { color: #6d7280; }
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus,
+input[type=number]:focus, input[type=search]:focus, input[type=url]:focus,
+textarea:focus, select:focus {
+	border-color: var(--accent);
+	box-shadow: 0 0 0 3px rgba(124,92,255,.28);
 }
-#menu-bar ul li ul  {
-	 left: 100%; top:0;
-	background:#FFf;
+
+input[type=submit], input[type=button], input[type=reset], button {
+	background: var(--accent);
+	color: #fff;
+	border: none;
+	border-radius: 8px;
+	padding: 10px 20px;
+	font-size: 15px;
+	font-weight: 600;
+	font-family: inherit;
+	cursor: pointer;
+	transition: background .15s ease, transform .05s ease;
 }
+input[type=submit]:hover, input[type=button]:hover, button:hover { background: #6b4aee; }
+input[type=submit]:active, button:active { transform: translateY(1px); }
+
+table { border-collapse: collapse; margin: 8px 0; }
+th, td { padding: 8px 12px; vertical-align: top; text-align: left; }
+th { color: var(--accent-2); font-weight: 600; }
+
+pre {
+	background: #0b0c11;
+	border: 1px solid var(--line);
+	border-radius: 8px;
+	padding: 12px 14px;
+	overflow: auto;
+	line-height: 1.5;
+}
+code, pre, kbd {
+	font-family: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+	font-size: 13px;
+}
+code {
+	background: var(--accent-tint);
+	color: #c9bcff;
+	padding: 1px 6px;
+	border-radius: 6px;
+}
+pre code { background: none; color: inherit; padding: 0; }
+
+/* ----------------------------------------------------------------------------
+   Lab notes: teaching text appended to a vulnerable page. Boxed and captioned
+   so it reads as commentary about the page, never as part of the application.
+   ---------------------------------------------------------------------------- */
+.labnote {
+	margin: 30px 0 6px;
+	padding: 14px 18px 18px;
+	border: 1px dashed var(--line);
+	border-left: 3px solid var(--accent);
+	border-radius: var(--radius);
+	background: rgba(124,92,255,.05);
+	color: var(--muted);
+	font-size: 15px;
+}
+.labnote-title {
+	display: block;
+	margin-bottom: 10px;
+	color: var(--accent-2);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+}
+.labnote b, .labnote strong { color: var(--text); }
+
+/* ---- Debug-mode developer error page (vulnerability/debugmode/orders.jsp) ---- */
+.dbg {
+	margin: 18px 0;
+	border: 1px solid #b3452f;
+	border-radius: var(--radius);
+	background: #1b1016;
+	overflow: hidden;
+	font-size: 14px;
+}
+.dbg-head {
+	padding: 16px 18px;
+	background: linear-gradient(180deg, #4a1d1d, #331419);
+	border-bottom: 1px solid #b3452f;
+	font-family: var(--font-mono, monospace);
+	color: #ffd9d2;
+}
+.dbg-badge {
+	display: inline-block;
+	margin-right: 10px;
+	padding: 2px 8px;
+	border-radius: 4px;
+	background: #d9482f;
+	color: #fff;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: .16em;
+}
+.dbg-msg { margin-top: 8px; font-size: 17px; color: #fff; font-weight: 600; }
+.dbg-sub { margin-top: 6px; font-size: 12px; color: #e0a89c; }
+.dbg-sec {
+	padding: 9px 18px;
+	background: #2a1620;
+	border-top: 1px solid #55212a;
+	color: #ff9d85;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+}
+.dbg-sec span { text-transform: none; letter-spacing: 0; color: var(--muted); font-weight: 400; }
+.dbg-t { width: 100%; border-collapse: collapse; font-family: var(--font-mono, monospace); font-size: 12.5px; }
+.dbg-t td { padding: 5px 18px; border-top: 1px solid #2b1a20; color: #ffe9e3; word-break: break-all; }
+.dbg-t .dbg-k { width: 240px; color: #ff9d85; white-space: nowrap; }
+.dbg-trace {
+	margin: 0;
+	padding: 14px 18px;
+	background: #140c10;
+	color: #cbbfc6;
+	font-size: 12px;
+	line-height: 1.5;
+	overflow-x: auto;
+	white-space: pre;
+}
+.dbg-safe {
+	margin: 18px 0;
+	padding: 16px 18px;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background: rgba(255,255,255,.03);
+}
+
+/* ---- One-time-code transfer flow (vulnerability/otp/*.jsp) ---- */
+.otp-card {
+	margin: 18px 0;
+	padding: 18px 20px;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background: rgba(255,255,255,.03);
+}
+.otp-step {
+	margin-bottom: 12px;
+	color: var(--accent-2);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+}
+.otp-card table td { padding: 4px 10px 4px 0; }
+.otp-card .fail { margin-left: 12px; }
+
+.otp-receipt {
+	max-width: 420px;
+	margin: 18px 0;
+	padding: 20px 22px;
+	border: 1px solid rgba(69,209,154,.35);
+	border-radius: var(--radius);
+	background: rgba(69,209,154,.07);
+}
+.otp-receipt-amt { font-size: 30px; font-weight: 700; color: var(--good); }
+.otp-receipt-to { margin-bottom: 12px; color: var(--muted); }
+.otp-receipt-t { width: 100%; border-collapse: collapse; font-size: 14px; }
+.otp-receipt-t td { padding: 6px 0; border-top: 1px solid var(--line); }
+.otp-receipt-t td:first-child { color: var(--muted); width: 45%; }
+
+.otp-ledger { width: 100%; border-collapse: collapse; font-size: 14px; }
+.otp-ledger th {
+	padding: 8px 10px;
+	border-bottom: 1px solid var(--line);
+	color: var(--muted);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+	text-align: left;
+}
+.otp-ledger td { padding: 8px 10px; border-bottom: 1px solid var(--line-soft); }

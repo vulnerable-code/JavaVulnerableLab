@@ -1,0 +1,6 @@
+Ops backup notes
+================
+
+- config.properties.bak : copy of prod config taken before the last deploy
+- restore DB with:  mysql -u root -p abc < abc_dump.sql   (dump kept on the ops box)
+- TODO: move this folder off the webserver, it should never have been under webapp/

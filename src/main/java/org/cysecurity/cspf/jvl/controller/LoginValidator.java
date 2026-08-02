@@ -58,6 +58,9 @@ public class LoginValidator extends HttpServlet {
                                    session.setAttribute("avatar", rs.getString("avatar"));
                                    Cookie privilege=new Cookie("privilege","user");
                                    response.addCookie(privilege);
+                                   Cookie jwt=new Cookie("jwt",org.cysecurity.cspf.jvl.model.JwtUtil.sign(rs.getString("username"), rs.getString("privilege")));
+                                   jwt.setPath(request.getContextPath());
+                                   response.addCookie(jwt);
                                    if(request.getParameter("RememberMe")!=null)
                                    {
                                        Cookie username=new Cookie("username",user);

@@ -52,7 +52,15 @@
         <servlet-name>xxe</servlet-name>
         <servlet-class>org.cysecurity.cspf.jvl.controller.xxe</servlet-class>
     </servlet>
-   
+    <servlet>
+        <servlet-name>Transfer</servlet-name>
+        <servlet-class>org.cysecurity.cspf.jvl.controller.Transfer</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Transfer</servlet-name>
+        <url-pattern>/Transfer.do</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Install</servlet-name>
         <url-pattern>/Install</url-pattern>
@@ -102,10 +110,41 @@
         <url-pattern>/xxe.do</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AvatarUpload</servlet-name>
+        <servlet-class>org.cysecurity.cspf.jvl.controller.AvatarUpload</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AvatarUpload</servlet-name>
+        <url-pattern>/UploadAvatar</url-pattern>
+    </servlet-mapping>
+
     <resource-ref>
         <res-ref-name>jdbc/jvl</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
     </resource-ref>
+
+    <!-- MISCONFIGURATION (OWASP 2025 A02, CWE-548): the default servlet is
+         overridden with directory listing ENABLED. Any directory without a
+         welcome file (e.g. /backup/, /docs/) can be browsed and its files
+         enumerated and downloaded. Set listings=false to fix. -->
+    <servlet>
+        <servlet-name>default</servlet-name>
+        <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
+        <init-param>
+            <param-name>debug</param-name>
+            <param-value>0</param-value>
+        </init-param>
+        <init-param>
+            <param-name>listings</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
 
 </web-app>
